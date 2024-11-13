@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
-import { ApplicationCommandType, Message } from 'discord.js';
+import { ApplicationCommandType, Message, TextChannel } from 'discord.js';
 
 @ApplyOptions<Command.Options>({
 	description: 'ping pong'
@@ -44,7 +44,7 @@ export class UserCommand extends Command {
 
 	private async sendPing(interactionOrMessage: Message | Command.ChatInputCommandInteraction | Command.ContextMenuCommandInteraction) {
 		const pingMessage =
-			interactionOrMessage instanceof Message
+			interactionOrMessage instanceof Message && interactionOrMessage.channel instanceof TextChannel
 				? await interactionOrMessage.channel.send({ content: 'Ping?' })
 				: await interactionOrMessage.reply({ content: 'Ping?', fetchReply: true });
 
